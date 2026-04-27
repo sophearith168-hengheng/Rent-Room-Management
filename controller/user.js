@@ -18,6 +18,56 @@ const getUser = async (req, res) => {
     }
 };
 
+const getUserByID = async (req, res) => {
+    try {
+        const result = await userService.getUserbyID(id);
+
+        return res.json({
+            success: true,
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+const updateuser = async (req, res) => {
+    try {
+        const result = await userService.updateuser(id,body);
+
+        return res.json({
+            success: true,
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+const deleteuser = async (req, res) => {
+    try {
+        const result = await userService.deleteuser(id);
+
+        return res.json({
+            success: true,
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
+
 
 const createTenantByAdmin = async (req, res) => {
     try {

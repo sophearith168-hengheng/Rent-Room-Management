@@ -27,7 +27,31 @@ const getUserByID = async (id) => {
          WHERE user_id = ?`,
         [id]
     );
+    return data.affectedRows;
+};
+
+const displayuserandtoken = async (id) => {
+    const [data] = await pool.query(
+        `SELECT 
+            u.user_id,
+            u.username,
+            u.email,
+            u.role,
+            t.token
+         FROM users u
+         LEFT JOIN user_tokens t 
+         ON u.user_id = t.user_id
+         WHERE u.user_id = ?`,
+        [id]
+    );
+
     return data;
+};
+const deleteTokenByUser = async (user_id) => {
+    await pool.query(
+        `DELETE FROM user_tokens WHERE user_id = ?`,
+        [user_id]
+    );
 };
 
 
@@ -42,6 +66,24 @@ const createTenantByAdmin = async (body) => {
 
     return data.insertId;
 };
+
+const updateUser = async (id, body) => {
+    const { username, email, role } = body;
+
+    const [result] = await pool.query(
+        `UPDATE users 
+         SET username = ?, email = ?, role = ?
+         WHERE user_id = ?`,
+        [username, email, role, id]
+    );
+
+    return result.affectedRows; 
+};
+
+const deleteuser = async (id) =>{
+    const [result] = await pool.query(`DELETE FROM users WHERE user_id = ?`,[id])
+    return result
+}
 
 
 const addToken = async (user_id, token) => {
@@ -94,5 +136,9 @@ module.exports = {
     addToken,
     findById,
     findToken,
-    deleteToken
+    deleteToken,
+    updateUser,
+    deleteuser,
+    displayuserandtoken,
+    deleteTokenByUser
 };

@@ -11,29 +11,36 @@ const login = async (body) => {
 
     const userInfo = await user.checkemail(email);
 
-    if (userInfo.length == 0) {
+    if (userInfo.length === 0) {
         throw new Error("Incorrect Password or Email");
     }
 
-    let isMatch = await bcrypt.compare(password, userInfo[0].password);
+    const isMatch = await bcrypt.compare(password, userInfo[0].password);
 
     if (!isMatch) {
         throw new Error("Incorrect Password or Email");
     }
-
+  
     const token = jwt.sign(
-        { id: userInfo[0].user_id, email: userInfo[0].email },
+        { 
+            id: userInfo[0].user_id, 
+            email: userInfo[0].email,
+            role: userInfo[0].role 
+        },
         jwtConfig.secret,
         { expiresIn: jwtConfig.expireIn }
     );
 
-    console.log('Generated token:', token);
+
+    await user.deleteTokenByUser(userInfo[0].user_id);
+
 
     await user.addToken(userInfo[0].user_id, token);
 
-    let row = await user.findById(userInfo[0].user_id);
 
-    return row;
+    const data = await user.displayuserandtoken(userInfo[0].user_id);
+
+    return data;
 };
 
 module.exports = {

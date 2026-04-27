@@ -6,6 +6,39 @@ const getUser = async () => {
     return await userModel.getUser();
 };
 
+const getUserbyID = async (id) =>{
+    return await userModel.findById(id);
+}
+
+const updateuser = async (id, body) => {
+    const { username, email, password } = body;
+
+    const existingUser = await userModel.getUserByID(id);
+    if (existingUser.length === 0) {
+        throw new Error("User not found");
+    }
+
+    let hashedPassword = null;
+
+    if (password) {
+        hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    const updateData = {
+        username: username || existingUser[0].username,
+        email: email || existingUser[0].email,
+        password: hashedPassword || existingUser[0].password
+    };
+
+    const result = await userModel.updateUser(id, updateData);
+
+    return result;
+};
+
+
+const deleteuser = async (id) =>{
+    return await userModel.deleteuser(id);
+}
 
 const createTenantByAdmin = async (body) => {
     const { username, email, password } = body;
@@ -34,5 +67,8 @@ const createTenantByAdmin = async (body) => {
 
 module.exports = {
     getUser,
-    createTenantByAdmin
+    createTenantByAdmin,
+    updateuser,
+    deleteuser,
+    getUserbyID
 };
