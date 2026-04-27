@@ -29,7 +29,7 @@ const login = async (body) => {
 
     console.log('Generated token:', token);
 
-    await user.addtoken(userInfo[0].user_id, token);
+    await user.addToken(userInfo[0].user_id, token);
 
     let row = await user.findById(userInfo[0].user_id);
 
