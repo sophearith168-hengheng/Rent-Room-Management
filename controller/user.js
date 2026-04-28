@@ -67,8 +67,6 @@ const deleteuser = async (req, res) => {
 };
 
 
-
-
 const createTenantByAdmin = async (req, res) => {
     try {
         const result = await userService.createTenantByAdmin(req.body);
@@ -107,5 +105,8 @@ const login = async (req, res) => {
 module.exports = {
     getUser,
     createTenantByAdmin,
-    login
+    login,
+    updateuser,
+    deleteuser,
+    getUserByID
 };
