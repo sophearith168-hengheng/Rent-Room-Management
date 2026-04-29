@@ -1,18 +1,77 @@
-const roomModel = require('../models/roommodel')
+const roomModel = require("../models/roommodel");
+
+const getRoom = async () => {
+    return await roomModel.getRoom();
+};
 
 
-const getRoom = async () =>{
-   try {
-        const result = await roomModel.getRoom();
-        return result;
-    } catch (error) {
-        console.log("Service ERROR:", error);
-        throw error;
+const getRoomByID = async (id) => {
+    if (!id) {
+        throw new Error("Room ID is required");
     }
-}
+
+    const room = await roomModel.getRoomByID(id);
+
+    if (!room) {
+        throw new Error("Room not found");
+    }
+
+    return room;
+};
 
 
+const createRoom = async (body) => {
+    const { room_number, price } = body;
+
+    if (!room_number || !price) {
+        throw new Error("Room number and price are required");
+    }
+
+    if (price <= 0) {
+        throw new Error("Price must be greater than 0");
+    }
+
+    return await roomModel.createRoom(body);
+};
+
+
+const updateRoom = async (id, body) => {
+    if (!id) {
+        throw new Error("Room ID is required");
+    }
+
+    const room = await roomModel.getRoomByID(id);
+
+    if (!room) {
+        throw new Error("Room not found");
+    }
+
+    return await roomModel.updateRoom(id, body);
+};
+
+
+const deleteRoom = async (id) => {
+    if (!id) {
+        throw new Error("Room ID is required");
+    }
+
+    const room = await roomModel.getRoomByID(id);
+
+    if (!room) {
+        throw new Error("Room not found");
+    }
+
+    if (room.status === "Occupied") {
+        throw new Error("Cannot delete occupied room");
+    }
+
+    return await roomModel.deleteRoom(id);
+};
 
 module.exports = {
-    getRoom
-}
+    getRoom,
+    getRoomByID,
+    createRoom,
+    updateRoom,
+    deleteRoom
+};
