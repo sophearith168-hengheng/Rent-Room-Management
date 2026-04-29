@@ -31,7 +31,15 @@ const createRoom = async (body) => {
         throw new Error("Price must be greater than 0");
     }
 
-    return await roomModel.createRoom(body);
+    
+    const data = await roomModel.createRoom(body);
+
+ 
+    const id = data.insertId;
+
+    const getbyID = await roomModel.getRoomByID(id);
+
+    return getbyID;
 };
 
 
@@ -46,7 +54,17 @@ const updateRoom = async (id, body) => {
         throw new Error("Room not found");
     }
 
-    return await roomModel.updateRoom(id, body);
+
+    const result = await roomModel.updateRoom(id, body);
+
+
+    if (result.affectedRows === 0) {
+        throw new Error("Update failed");
+    }
+
+    const data = await roomModel.getRoomByID(id);
+
+    return data
 };
 
 

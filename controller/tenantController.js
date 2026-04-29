@@ -1,8 +1,8 @@
-const roomService = require("../services/room");
+const tenantService = require("../services/tenantService");
 
-const getRoom = async (req, res) => {
+const getTenant = async (req, res) => {
     try {
-        const result = await roomService.getRoom();
+        const result = await tenantService.getTenant();
 
         return res.json({
             success: true,
@@ -16,12 +16,11 @@ const getRoom = async (req, res) => {
     }
 };
 
-
-const getRoomByID = async (req, res) => {
+const getTenantByID = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const result = await roomService.getRoomByID(id);
+        const result = await tenantService.getTenantByID(id);
 
         return res.json({
             success: true,
@@ -36,9 +35,9 @@ const getRoomByID = async (req, res) => {
 };
 
 
-const createRoom = async (req, res) => {
+const createTenant = async (req, res) => {
     try {
-        const result = await roomService.createRoom(req.body);
+        const result = await tenantService.createTenant(req.body);
 
         return res.json({
             success: true,
@@ -52,31 +51,30 @@ const createRoom = async (req, res) => {
     }
 };
 
-
-const updateRoom = async (req, res) => {
-    try {
-        const id = req.params.id;
-
-        const result = await roomService.updateRoom(id, req.body);
-
-        return res.json({
-            success: true,
-            data: result
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
-
-
-const deleteRoom = async (req, res) => {
+const updateTenant = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const result = await roomService.deleteRoom(id);
+        const result = await tenantService.updateTenant(id, req.body);
+
+        return res.json({
+            success: true,
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
+const deleteTenant = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const result = await tenantService.deleteTenant(id);
 
         return res.json({
             success: true,
@@ -91,9 +89,9 @@ const deleteRoom = async (req, res) => {
 };
 
 module.exports = {
-    getRoom,
-    getRoomByID,
-    createRoom,
-    updateRoom,
-    deleteRoom
+    getTenant,
+    getTenantByID,
+    createTenant,
+    updateTenant,
+    deleteTenant
 };

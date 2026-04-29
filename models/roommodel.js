@@ -47,7 +47,7 @@ const deleteRoom = async (id) => {
         [id]
     );
 
-    return result;
+
 };
 
 module.exports = {
