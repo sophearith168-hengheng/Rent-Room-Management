@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const assignment = require("../controller/roomAssignmentController");
+const assignment = require("../controller/roomAssign");
 
 
 router.get("/", assignment.getAssignments);

@@ -27,7 +27,7 @@ const getUserByID = async (id) => {
          WHERE user_id = ?`,
         [id]
     );
-    return data.affectedRows;
+    return data;
 };
 
 const displayuserandtoken = async (id) => {

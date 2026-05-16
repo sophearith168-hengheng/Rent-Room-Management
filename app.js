@@ -27,12 +27,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', user);
-app.use('/login',auth)
-app.use('/room',room)
-app.use('/tenant',tenant)
-app.use('/roomAssign',roomAssign)
-app.use('/utility',utility)
+app.use('/users', user);
+app.use('/login', auth);
+app.use('/room', room);
+app.use('/tenant', tenant);
+app.use('/roomAssign', roomAssign);
+app.use('/utility', utility);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

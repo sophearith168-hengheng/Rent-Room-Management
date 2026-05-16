@@ -1,4 +1,4 @@
-const assignmentService = require("../services/roomAssignmentService");
+const assignmentService = require("../services/roomAssign");
 
 
 const getAssignments = async (req, res) => {
