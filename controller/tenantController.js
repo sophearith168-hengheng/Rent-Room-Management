@@ -37,7 +37,13 @@ const getTenantByID = async (req, res) => {
 
 const createTenant = async (req, res) => {
     try {
-        const result = await tenantService.createTenant(req.body);
+        const body = { ...req.body };
+
+        if (req.file) {
+            body.id_card = `images/${req.file.filename}`;
+        }
+
+        const result = await tenantService.createTenant(body);
 
         return res.json({
             success: true,
@@ -54,8 +60,13 @@ const createTenant = async (req, res) => {
 const updateTenant = async (req, res) => {
     try {
         const id = req.params.id;
+        const body = { ...req.body };
 
-        const result = await tenantService.updateTenant(id, req.body);
+        if (req.file) {
+            body.id_card = `images/${req.file.filename}`;
+        }
+
+        const result = await tenantService.updateTenant(id, body);
 
         return res.json({
             success: true,

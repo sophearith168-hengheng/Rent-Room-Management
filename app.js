@@ -11,6 +11,7 @@ var room = require("./routes/roomroute")
 var tenant = require("./routes/tenantroute")
 var roomAssign = require("./routes/roomAssign")
 var utility = require("./routes/utilityBillRoute")
+var payment = require("./routes/payment")
 
 
 
@@ -33,6 +34,7 @@ app.use('/room', room);
 app.use('/tenant', tenant);
 app.use('/roomAssign', roomAssign);
 app.use('/utility', utility);
+app.use('/payment', payment);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,12 +43,20 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
+  const status = err.status || 500;
+  const acceptsJson = req.headers.accept && req.headers.accept.indexOf('application/json') !== -1;
+
+  if (acceptsJson || req.xhr) {
+    return res.status(status).json({
+      success: false,
+      message: err.message
+    });
+  }
+
+  res.status(status);
   res.render('error');
 });
 

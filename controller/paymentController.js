@@ -38,7 +38,13 @@ const getPaymentByID = async (req, res) => {
 
 const createPayment = async (req, res) => {
     try {
-        const result = await paymentService.createPayment(req.body);
+        const body = { ...req.body };
+
+        if (req.file) {
+            body.proof_image = `images/${req.file.filename}`;
+        }
+
+        const result = await paymentService.createPayment(body);
 
         return res.json({
             success: true,
@@ -56,8 +62,13 @@ const createPayment = async (req, res) => {
 const updatePayment = async (req, res) => {
     try {
         const id = req.params.id;
+        const body = { ...req.body };
 
-        const result = await paymentService.updatePayment(id, req.body);
+        if (req.file) {
+            body.proof_image = `images/${req.file.filename}`;
+        }
+
+        const result = await paymentService.updatePayment(id, body);
 
         return res.json({
             success: true,
