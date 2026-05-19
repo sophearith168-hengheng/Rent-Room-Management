@@ -29,7 +29,7 @@ const createTenant = async (body) => {
         `INSERT INTO tenants
         (user_id, fullname, phone, telegram, id_card, address)
         VALUES (?, ?, ?, ?, ?, ?)`,
-        [user_id, fullname, phone, telegram, id_card, address]
+        [user_id || null, fullname, phone, telegram, id_card, address]
     );
 
     return result;

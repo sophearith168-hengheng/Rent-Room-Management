@@ -22,10 +22,10 @@ const getTenantByID = async (id) => {
 
 // Create tenant
 const createTenant = async (body) => {
-    const { user_id, fullname } = body;
+    const { fullname } = body;
 
-    if (!user_id || !fullname) {
-        throw new Error("User ID and fullname are required");
+    if (!fullname) {
+        throw new Error("Fullname is required");
     }
 
     const data = await tenantModel.createTenant(body);

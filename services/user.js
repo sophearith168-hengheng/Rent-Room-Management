@@ -56,7 +56,7 @@ const createTenantByAdmin = async (body) => {
         username,
         email,
         password: hashedPassword,
-        role: "Tenant"
+        role: "Admin"
     });
 
 

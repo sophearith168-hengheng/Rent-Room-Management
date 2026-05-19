@@ -6,12 +6,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var user = require("./routes/user")
-var auth = require("./routes/authroute")
+var authRoute = require("./routes/authroute")
 var room = require("./routes/roomroute")
 var tenant = require("./routes/tenantroute")
 var roomAssign = require("./routes/roomAssign")
 var utility = require("./routes/utilityBillRoute")
 var payment = require("./routes/payment")
+var invoice = require("./routes/invoice")
+var auth = require("./middlewares/auth")
 
 
 
@@ -28,13 +30,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use('/login', authRoute);
+
+
+app.use(auth.isAdmin);
 app.use('/users', user);
-app.use('/login', auth);
 app.use('/room', room);
 app.use('/tenant', tenant);
 app.use('/roomAssign', roomAssign);
 app.use('/utility', utility);
 app.use('/payment', payment);
+app.use('/invoice', invoice);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

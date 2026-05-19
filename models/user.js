@@ -56,11 +56,12 @@ const deleteTokenByUser = async (user_id) => {
 
 
 const createTenantByAdmin = async (body) => {
-    const dataarr = [body.username, body.email, body.password];
+    const role = body.role || 'Admin';
+    const dataarr = [body.username, body.email, body.password, role];
 
     const [data] = await pool.query(
         `INSERT INTO users (username, email, password, role)
-         VALUES (?, ?, ?, 'Tenant')`,
+         VALUES (?, ?, ?, ?)`,
         dataarr
     );
 
